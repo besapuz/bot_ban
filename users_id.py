@@ -1,9 +1,9 @@
-import asyncio
-import json
-from telethon.sync import TelegramClient
+# импорт для работы с переменными окружения
 from os import environ
 from dotenv import load_dotenv
+
 # классы для работы с каналами
+from telethon.sync import TelegramClient
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
 
@@ -36,7 +36,7 @@ async def get_user_id(channel) -> None:
         all_participants.extend(participants.users)
         offset_user += len(participants.users)
 
-    all_users_details = set() # список telegram id каждого пользователя
+    all_users_details = set()  # список telegram id каждого пользователя
 
     for participant in all_participants:
         all_users_details.add(participant.id)
