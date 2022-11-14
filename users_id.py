@@ -69,8 +69,6 @@ async def check_users(all_participants: list, chat_id: int) -> None:
         all_users_details.append({'id': participant.id, 'bot': participant.bot, "name": participant.username})
 
     for user_id in all_users_details:
-        print(user_id)
-
         if not ldap.search('OU=Пользователи,OU=Учетные записи,OU=Технологии надежности,DC=reliab,DC=tech',
                            f"(&(objectClass=user)(telegram={user_id['id']}))", attributes=['memberOf']):
 
