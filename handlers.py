@@ -12,8 +12,6 @@ from dotenv import load_dotenv
 from telethon.sync import TelegramClient
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
-
-from id_users import get_user_id
 from keyboard_admin import button_case_admin
 
 from connect_ad import connect_ad
@@ -56,6 +54,24 @@ class FSMAdmin(StatesGroup):
     EXCEPTION = State()
     EXCLUDE = State()
     DELETE = State()
+
+
+async def get_user_id(channel) -> list:
+    """Получает id всех пользователей канала"""
+    offset_user = 0  # номер участника, с которого начинается считывание
+    limit_user = 100  # максимальное число записей, передаваемых за один раз
+
+    all_participants = []  # список всех участников канала
+    filter_user = ChannelParticipantsSearch('')
+
+    while True:
+        participants = await client(GetParticipantsRequest(channel,
+                                                           filter_user, offset_user, limit_user, hash=0))
+        if not participants.users:
+            break
+        all_participants.extend(participants.users)
+        offset_user += len(participants.users)
+    return all_participants
 
 
 async def exclude(massage: types.Message, state: FSMContext):
