@@ -5,7 +5,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from aiogram.utils import executor
 
-from users_id import register_handler_client
+from handlers import register_handler_client
 
 
 storage = MemoryStorage()
