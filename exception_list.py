@@ -7,7 +7,7 @@ def get_telegram_id_chat_id(connection):
     try:
         # with connection.cursor() as cursor:
         # Записать данные
-        #     sql = "INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)"
+        #     sql = """UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=623614341"""
         # cursor.execute(sql, ('webmaster@python.org', 'very-secret'))
         #
         #     cursor.execute(sql)
@@ -32,3 +32,4 @@ def get_telegram_id_chat_id(connection):
 
 if __name__ == "__main__":
     get_telegram_id_chat_id(db)
+# UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=623614341
