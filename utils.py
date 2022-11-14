@@ -17,12 +17,12 @@ dp = Dispatcher(bot, storage=storage)
 
 ldap = connect_ad()
 
-exception_users = [5473542441, 196395317]  # список исключения
+exception_users = [5473542441, 196395317]  # список исключения сделать доступ к таблице и проверить исключение
 
 
 async def check_users(all_participants: list, chat_id: int, admin_id: int) -> None:
     all_users_details = []  # список telegram id каждого пользователя
-
+    print(chat_id)
     for participant in all_participants:
         all_users_details.append({'id': participant.id, 'bot': participant.bot, "name": participant.username})
 
