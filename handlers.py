@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 from telethon.sync import TelegramClient
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.types import ChannelParticipantsSearch
+
+from exception_list import add_except_chat_id
 from keyboard_admin import button_case_admin
 
 from connect_ad import connect_ad
@@ -82,8 +84,8 @@ async def exclude(massage: types.Message, state: FSMContext):
     get_user = await get_user_id(channel)
     chat_id = massage.chat.id
     await check_users(get_user, chat_id, ADMIN_ID)
-    await state.finish()
     await massage.delete()
+    await state.finish()
 
 
 async def add_user_exception(massage: types.Message):
@@ -96,7 +98,9 @@ async def exception(massage: types.Message, state: FSMContext):
         data["EXCEPTION"] = massage.text  # добавлять в базу
     await bot.send_message(massage.from_user.id, f"Пользователь {data['EXCEPTION']} добавлен в исключения.",
                            reply_markup=button_case_admin)
-
+    chat_id = set()
+    chat_id.add(massage.chat.id)
+    add_except_chat_id(db, data['EXCEPTION'], chat_id)
     await state.finish()
 
 
