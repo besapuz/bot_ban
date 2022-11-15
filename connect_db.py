@@ -34,7 +34,7 @@ def connect_db():
 
 
 if __name__ == '__main__':
-    import logging.config
-    current_path = Path(__file__).parent.absolute()
-    logging.config.fileConfig(fr'{current_path}\...\logging.conf')
+    # import logging.config
+    # current_path = Path(__file__).parent.absolute()
+    # logging.config.fileConfig(fr'{current_path}\...\logging.conf')
     connect_db()

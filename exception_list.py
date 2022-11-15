@@ -3,33 +3,45 @@ from connect_db import connect_db
 db = connect_db()
 
 
-def get_telegram_id_chat_id(connection):
+def get_except_chat_id(connection, telegram_id):
     try:
-        # with connection.cursor() as cursor:
-        # Записать данные
-        #     sql = """UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=623614341"""
-        # cursor.execute(sql, ('webmaster@python.org', 'very-secret'))
-        #
-        #     cursor.execute(sql)
-
-        # connection is not autocommit by default. So you must commit to save
-        # your changes.
-        # connection.commit()
-
         with connection.cursor() as cursor:
             # Получить данные
             sql = f"""
                     SELECT except_chat 
                     FROM users 
-                    WHERE telegram_id 
-                    IN (623614341)"""
+                    WHERE telegram_id={telegram_id}
+                    """
             cursor.execute(sql)
             result = cursor.fetchone()
-            return result
-    finally:
-        connection.close()
+
+    except Exception as e:
+        return f"Error {e}"
+
+    if result is None:
+        return []
+    else:
+        return result[0]
 
 
-if __name__ == "__main__":
-    get_telegram_id_chat_id(db)
+def add_except_chat_id(connection, telegram_id, chat_id):
+    try:
+        with connection.cursor() as cursor:
+            # Записать данные
+            sql = f"""
+                    UPDATE users 
+                    SET except_chat='{chat_id}'::bigint[] 
+                    WHERE telegram_id={telegram_id}
+                    """
+            cursor.execute(sql)
+            connection.commit()
+
+    except Exception as e:
+        return f"Error {e}"
+
+
+c = get_except_chat_id(db, 623614341)
+print(c)
+
 # UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=623614341
+# SELECT except_chat FROM users WHERE telegram_id=623614341
