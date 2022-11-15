@@ -25,7 +25,6 @@ def get_except_chat_id(connection, telegram_id):
 
 
 def add_except_chat_id(connection, telegram_id, chat_id):
-    print(telegram_id)
     try:
         with connection.cursor() as cursor:
             # Записать данные
@@ -41,11 +40,5 @@ def add_except_chat_id(connection, telegram_id, chat_id):
         return f"Error {e}"
 
 
-# e = get_except_chat_id(db, 623614341)
-# print(e)
-c = add_except_chat_id(db, 1210088598, {-1001614832688})
-# e = get_except_chat_id(db, 196395317)
-# print(e)
-
-# UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=623614341
-# SELECT except_chat FROM users WHERE telegram_id=623614341
+# UPDATE users SET except_chat='{-1001614832688, 30}'::bigint[] WHERE telegram_id=
+# SELECT except_chat FROM users WHERE telegram_id=

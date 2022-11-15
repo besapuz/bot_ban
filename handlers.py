@@ -49,7 +49,7 @@ phone = environ["PHONE"]
 client = TelegramClient(phone, api_id, api_hash)
 client.start()
 ldap = connect_ad()
-ADMIN_ID = None
+CHAT_ID = None
 
 
 class FSMAdmin(StatesGroup):
@@ -77,13 +77,13 @@ async def get_user_id(channel) -> list:
 
 
 async def exclude(massage: types.Message, state: FSMContext):
-    global ADMIN_ID
-    ADMIN_ID = massage.from_user.id
+    global CHAT_ID
+    admin_id = massage.from_user.id
     await FSMAdmin.EXCLUDE.set()
     channel = await client.get_entity(URL_GROUP)
     get_user = await get_user_id(channel)
     chat_id = massage.chat.id
-    await check_users(get_user, chat_id, ADMIN_ID)
+    await check_users(get_user, chat_id, admin_id)
     await massage.delete()
     await state.finish()
 
@@ -99,7 +99,7 @@ async def exception(massage: types.Message, state: FSMContext):
     await bot.send_message(massage.from_user.id, f"Пользователь {data['EXCEPTION']} добавлен в исключения.",
                            reply_markup=button_case_admin)
     chat_id = set()
-    chat_id.add(massage.chat.id)
+    chat_id.add(CHAT_ID)
     add_except_chat_id(db, data['EXCEPTION'], chat_id)
     await state.finish()
 
